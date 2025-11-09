@@ -1,11 +1,11 @@
 # Projekt Pzaw 2
-*jak uruchomić stronę:*
->1. Sklonuj repozytorium: 
+*Jak uruchomić stronę:*
+1. Sklonuj repozytorium: 
     git clone https://github.com/Pos6062/PZAW2
->2. Przejdź do folderu zawierającego pliki strony:
+2. Przejdź do folderu zawierającego pliki strony:
     cd projekt02
->3. Zainstaluj express i ejs potrzebne do obsługi strony:
+3. Zainstaluj express i ejs potrzebne do obsługi strony:
     npm install express ejs
->4. Uruchom serwer:
+4. Uruchom serwer:
     node index.js
->5. W przeglądarce wpisz localhost:8000
+5. W przeglądarce wpisz localhost:8000
