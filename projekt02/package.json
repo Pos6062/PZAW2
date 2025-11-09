@@ -1,15 +1,14 @@
 {
-  "name": "express-flashcards",
+  "name": "projekt02",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "license": "ISC",
+  "author": "Pos6062",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.10",
     "express": "^5.1.0"
