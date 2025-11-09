@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <main>
+      <h1><%= title %></h1>
+      <a href="/about">about us</a>
+        <ul id="people">
+        <% people.forEach(function(person){ %>
+            <li><%= person.name %> <%= person.surname %></li>
+        <% }) %>
+        <a href="/form">Sign in NOW</a>
+        
+    </ul>
+    </main>
+  </body>
+</html>
