@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <script src="/onclick.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1><%= title %></h1>
+        <% people.forEach(function(person){ %>
+        <form action = "/edit/values" method="POST">
+            <label for="fname">Change name</label>
+            <input type="text" id="fname" name="fname" value="<%= person.fname %>"/><br>
+            <label for="lname">Change surname</label>
+            <input type="text" id="lname" name="lname" value="<%= person.lname %>"/><br>
+            <input type="hidden" value="<%= person.id %>" name="id">
+            <input type="submit" value="update" name="update">
+            <input type="submit" value="delete" name="delete">
+        </form>
+        <% }) %>
+    </main>
+  </body>
+</html>
