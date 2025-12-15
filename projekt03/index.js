@@ -1,3 +1,5 @@
+
+
 import { name } from "ejs";
 import { DatabaseSync } from "node:sqlite";
 import express from "express";
@@ -24,7 +26,10 @@ db.exec(
 
 const insert = db.prepare('INSERT INTO czlonkowie (fname, lname) VALUES (?, ?)');
 const update_query = db.prepare('UPDATE czlonkowie SET fname = ?, lname = ? WHERE id = ?');
-const remove_query = db.prepare('DELETE FROM czlonkowie WHERE id = ?');
+const remove_query = db.prepare('DELETE FROM czlonkowie WHERE id = ?;');
+const empty = db.prepare('DELETE FROM czlonkowie WHERE 1;')
+const populate = db.prepare("INSERT INTO czlonkowie (fname, lname) VALUES ('Oliwier', 'Bokemon'), ('Antoni', 'Chruściel'), ('Antoni', 'Jacko');");
+
 
 
 app.get("/", (req, res) => {
@@ -80,45 +85,16 @@ app.get("/about", (req, res) =>{
   res.render("about");
 });
 
-export function populate(name, surname){
-  const insert = 'INSERT INTO czlonkowie (fname, lname) VALUES (?, ?)';
-  return insert.run(name, surname);
-  console.log("inserted", name, surname);
-}
+app.get("/populate",  (req, res) =>{
+  res.render()
+  });
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
 
-export default{
-  populate
+if (process.env.POPULATE_DB) {
+  console.log("Populating db...");
+  empty.run();
+  populate.run();
 }
-
-// const deleteById = db.prepare(
-//   "DELETE FROM czlonkowie WHERE id = ?"
-// );
-
-// app.delete("/delete/:id", (req, res) => {
-//   const id = req.params.id;
-//   deleteById.run(id);
-//   res.json({ success: true });
-// });
-
-
-
-// const updateById = db.prepare(
-//   "UPDATE czlonkowie SET fname = ?, lname = ? WHERE id = ?"
-// );
-
-// // app.update("/update/:id", (req, res) => {
-// //   const id = req.params.id;
-// //   deleteById.run(id);
-// //   res.json({ success: true });
-// // });
-
-// app.post("/update", (req, res) => {
-//   const { id, fname, lname } = req.body;
-
-//   updateById.run(fname, lname, id);
-//   res.redirect("/");
-// });

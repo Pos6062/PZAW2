@@ -1,25 +1,144 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
-    <script src="/onclick.js"></script>
-  </head>
-  <body>
-    <main>
-      <h1><%= title %></h1>
-        <% people.forEach(function(person){ %>
-        <form action = "/edit/values" method="POST">
-            <label for="fname">Change name</label>
-            <input type="text" id="fname" name="fname" value="<%= person.fname %>"/><br>
-            <label for="lname">Change surname</label>
-            <input type="text" id="lname" name="lname" value="<%= person.lname %>"/><br>
-            <input type="hidden" value="<%= person.id %>" name="id">
-            <input type="submit" value="update" name="update">
-            <input type="submit" value="delete" name="delete">
-        </form>
-        <% }) %>
-    </main>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <script src="/onclick.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 0;
+    }
+
+    main {
+      width: 100%;
+      max-width: 700px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #333;
+    }
+
+    form {
+      background: #ffffff;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="text"] {
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #0066cc;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    input[type="submit"] {
+      flex: 1;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      transition: background 0.2s ease;
+    }
+
+    input[name="update"] {
+      background: #28a745;
+    }
+
+    input[name="update"]:hover {
+      background: #218838;
+    }
+
+    input[name="delete"] {
+      background: #dc3545;
+    }
+
+    input[name="delete"]:hover {
+      background: #c82333;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1><%= title %></h1>
+
+    <% people.forEach(function(person){ %>
+      <form action="/edit/values" method="POST">
+        <div class="field">
+          <label for="fname-<%= person.id %>">Change name</label>
+          <input
+            type="text"
+            id="fname-<%= person.id %>"
+            name="fname"
+            value="<%= person.fname %>"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="lname-<%= person.id %>">Change surname</label>
+          <input
+            type="text"
+            id="lname-<%= person.id %>"
+            name="lname"
+            value="<%= person.lname %>"
+            required
+          />
+        </div>
+
+        <input type="hidden" name="id" value="<%= person.id %>" />
+
+        <div class="actions">
+          <input type="submit" value="Update" name="update" />
+          <input type="submit" value="Delete" name="delete" />
+        </div>
+      </form>
+    <% }) %>
+  </main>
+</body>
 </html>
