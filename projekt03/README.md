@@ -10,6 +10,6 @@
     node index.js
 5. W przeglądarce wpisz localhost:8000
 
-6. Aby wczytać przykładowe dane, przed zamiast "node index.js" wpisz "POPULATE_DB=1 node index.js"
+6. Aby wczytać przykładowe dane, przed zamiast "node index.js" wpisz "POPULATE_DB=1 node index.js" na linuxsie, bądź "$env:POPULATE_DB=1; node index.js" w windows powershellu
 
 7. Program umożliwia wpisywanie się do listy członków, edytowanie tej listy i usuwanie elementów z tej listy, a także zawiera opis (About us)
