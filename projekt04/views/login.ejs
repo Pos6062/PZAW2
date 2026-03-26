@@ -11,9 +11,15 @@
 <main>
   <h1><%= title %></h1>
   <div>
-    <%- include("forms/generic.ejs", form) %>
+    <form action="/auth/login" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <input type="submit" value="submit">
+    </form>
   </div>
-  <span>Nie masz konta? <a href="/signup">Zarejestruj się!</a></span>
+  <span>Nie masz konta? <a href="/user_signup">Zarejestruj się!</a></span>
 </main>
 
 </body>

@@ -8,7 +8,8 @@ import settings from "./settings.js";
 // import session from "./models/session.js";
 // import auth from "./controllers/auth.js";
 
- const port = process.env.PORT || 8000;
+const port = 8000;
+//  const port = process.env.PORT || 8000;
 // const SECRET = process.env.SECRET;
 // if (SECRET == null) {
 //   console.error(
@@ -45,10 +46,11 @@ console.log("Creating users db")
 usersDB.exec(
   `CREATE TABLE IF NOT EXISTS users (
     id             INTEGER PRIMARY KEY,
-    fname          TEXT NOT NULL,
-    lname          TEXT NOT NULL
+    username          TEXT NOT NULL,
+    password          TEXT NOT NULL
   ) STRICT;`
 )
+
 
 ////////////////////////
 
@@ -58,7 +60,8 @@ const remove_query = db.prepare('DELETE FROM czlonkowie WHERE id = ?;');
 const empty = db.prepare('DELETE FROM czlonkowie WHERE 1;')
 const populate = db.prepare("INSERT INTO czlonkowie (fname, lname) VALUES ('Oliwier', 'Bokemon'), ('Antoni', 'Chruściel'), ('Antoni', 'Jacko');");
 
-
+const addUser = usersDB.prepare('INSERT INTO users (username, password) VALUES (?, ?)')
+const checkUser = usersDB.prepare('SELECT * FROM users WHERE username = ? AND password = ?')
 //;kvjksdfghjs
 
 
@@ -159,9 +162,34 @@ app.get("/user_signup", (req, res) =>{
     title: "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
   });
 })
+
+app.get("/user_signup", (req, res) =>{
+  res.render("signup", {
+    title: "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  });
+})
+
+app.post("/auth/signup", (req, res) =>{
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(username);
+  console.log(password);
+  addUser.run(username, password)
+  
+   res.redirect(`/`);
+})
+app.post("/auth/login", (req, res) =>{
+  const username = req.body.username;
+  const password = req.body.password;
+  const logging = checkUser.get(username, password);
+  console.log(logging);
+  console.log("logged in");
+  res.redirect(`/`);
+})
+
 app.get("/user_login", (req, res) =>{
   res.render("login", {
-    title: "hentai"
+    title: "login"
   });
 })
 

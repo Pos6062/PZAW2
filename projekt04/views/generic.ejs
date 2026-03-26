@@ -1,4 +1,4 @@
-<!-- <form class="form" action="<%- action %>" method="<%- method %>">
+<form class="form" action="<%- action %>" method="<%- method %>">
   <% fields.forEach((field) => { %>
   <div class="form-row">
     <label for="field_<%- field.name %>"><%= field.display_name %></label>
@@ -24,10 +24,11 @@
         <span class="form-error"><%= errors[field.name] %></span>
       <% } %>
     </div>
+  
   </div>
   <% }) %>
   <div class="form-row">
     <label></label>
     <button class="submit-button"><%=  locals.submit_text || "Wyślij" %></button>
   </div>
-</form> -->
+</form>
