@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "argon2": "^0.44.0",
+    "body-parser": "^2.2.2",
     "cookie-parser": "^1.4.7",
     "ejs": "^3.1.10",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-validator": "^7.3.1"
   }
 }

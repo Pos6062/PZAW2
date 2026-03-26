@@ -1,10 +1,11 @@
-
 import cookieParser from "cookie-parser";
 import { name } from "ejs";
 import { DatabaseSync } from "node:sqlite";
 import express from "express";
 
 import settings from "./settings.js";
+import { isStringObject } from "node:util/types";
+import { cookie } from "express-validator";
 // import session from "./models/session.js";
 // import auth from "./controllers/auth.js";
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(settings.settingsHandler);
+
 
 const db_path = "./db.sqlite";
 const db = new DatabaseSync(db_path);
@@ -101,18 +103,19 @@ app.get("/", (req, res) => {
 //   }
 
 // //----
-
+  let username = req.cookies["user"];
   res.render("home", {
-    title: "Członkowie klubu:",
+    title: "The hall of fame",
     people: people,
-    db: db
+    db: db,
+    user: username
     // theme: "dark"
   });
 });
 
 app.get("/form", (req, res) => {
   res.render("form", {
-    title: "zapisz się do naszego klubu"
+    title: "Add a person to the hall of fame"
   });
 });
 
@@ -157,34 +160,44 @@ app.get("/populate",  (req, res) =>{
   res.render()
   });
 
-app.get("/user_signup", (req, res) =>{
-  res.render("signup", {
-    title: "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
-  });
-})
+
+
+////////////////////////////////////////
+
+
 
 app.get("/user_signup", (req, res) =>{
   res.render("signup", {
-    title: "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    title: "Sign in",
+        err: "test",
   });
 })
 
-app.post("/auth/signup", (req, res) =>{
+app.get("/user_login", (req, res) =>{
+  res.render("login", {
+    title: "Log in",
+
+  });
+})
+
+app.post("/auth/signup",(req, res) =>{
   const username = req.body.username;
   const password = req.body.password;
-  console.log(username);
-  console.log(password);
-  addUser.run(username, password)
-  
-   res.redirect(`/`);
+    addUser.run(username, password)
+    res.redirect(`/`);
+    err = "too long";
+   res.json(req.body);
 })
+
 app.post("/auth/login", (req, res) =>{
   const username = req.body.username;
   const password = req.body.password;
   const logging = checkUser.get(username, password);
-  console.log(logging);
-  console.log("logged in");
-  res.redirect(`/`);
+  if(logging !== undefined){
+    res.cookie("user", username, {maxAge: 36000000, httpOnly: true});
+    console.log("logged in");
+    res.redirect(`/`);
+  }
 })
 
 app.get("/user_login", (req, res) =>{

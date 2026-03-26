@@ -11,7 +11,9 @@
 <body>
   <main>
     <h1><%= title %></h1>
-
+    <% if (user != false){ %>
+      <p>hi <%= user %>!</p>
+    <% } %>
     <a href="/about" class="top-link">About us</a>
 
     <ul id="people">
