@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%- app.theme %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+
+<main>
+  <h1><%= title %></h1>
+  <div>
+    <%- include("forms/generic.ejs", form) %>
+  </div>
+  <span>Nie masz konta? <a href="/signup">Zarejestruj się!</a></span>
+</main>
+
+</body>
+</html>

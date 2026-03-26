@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html data-theme="<%- app.theme %>" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <script src="/onclick.js"></script>
+  <link rel="stylesheet" href="/style/style.css">
+  <style>
+
+
+    
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1><%= title %></h1>
+
+    <% people.forEach(function(person){ %>
+      <form action="/edit/values" method="POST">
+        <div class="field">
+          <label for="fname-<%= person.id %>">Change name</label>
+          <input
+            type="text"
+            id="fname-<%= person.id %>"
+            name="fname"
+            value="<%= person.fname %>"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="lname-<%= person.id %>">Change surname</label>
+          <input
+            type="text"
+            id="lname-<%= person.id %>"
+            name="lname"
+            value="<%= person.lname %>"
+            required
+          />
+        </div>
+
+        <input type="hidden" name="id" value="<%= person.id %>" />
+
+        <div class="actions">
+          <input type="submit" value="Update" name="update" />
+          <input type="submit" value="Delete" name="delete" />
+        </div>
+      </form>
+    <% }) %>
+  </main>
+</body>
+</html>

@@ -1,0 +1,197 @@
+/* ===== THEME VARIABLES ===== */
+html {
+  --backdrop: #f4f6f8;
+  --background: #ffffff;
+  --text-color: #222;
+  --heading-color: #333;
+  --label-color: #444;
+
+  --input-border: #ccc;
+  --input-focus: #0066cc;
+
+  --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  --btn-primary: #0066cc;
+  --btn-primary-hover: #0052a3;
+
+  --btn-success: #28a745;
+  --btn-success-hover: #218838;
+
+  --btn-danger: #dc3545;
+  --btn-danger-hover: #c82333;
+
+  --btn-secondary: #6c757d;
+  --btn-secondary-hover: #5a6268;
+
+  --list-bg: #f1f3f5;
+}
+
+/* ===== DARK MODE ===== */
+html[data-theme='dark'] {
+  --backdrop: #1e1e1e;
+  --background: #2a2a2a;
+  --text-color: #ddd;
+  --heading-color: #fff;
+  --label-color: #ccc;
+
+  --input-border: #555;
+  --input-focus: #4da3ff;
+
+  --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+  --btn-primary: #4da3ff;
+  --btn-primary-hover: #1f7ae0;
+
+  --btn-success: #3ecf6d;
+  --btn-success-hover: #2fb65c;
+
+  --btn-danger: #ff5c5c;
+  --btn-danger-hover: #e04848;
+
+  --btn-secondary: #888;
+  --btn-secondary-hover: #666;
+
+  --list-bg: #3a3a3a;
+}
+
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== LAYOUT ===== */
+body {
+  min-height: 100vh;
+  background: var(--backdrop);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 0;
+  color: var(--text-color);
+}
+
+main {
+  width: 100%;
+  max-width: 700px;
+  background: var(--background);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+}
+
+/* ===== TEXT ===== */
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--heading-color);
+}
+
+label {
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+  color: var(--label-color);
+}
+
+/* ===== FORM ===== */
+form {
+  margin-bottom: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+input[type="text"] {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--input-border);
+  font-size: 1rem;
+  background: var(--background);
+  color: var(--text-color);
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--input-focus);
+}
+
+/* ===== ACTIONS ===== */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+input[type="submit"] {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+input[name="update"] {
+  background: var(--btn-success);
+}
+
+input[name="update"]:hover {
+  background: var(--btn-success-hover);
+}
+
+input[name="delete"] {
+  background: var(--btn-danger);
+}
+
+input[name="delete"]:hover {
+  background: var(--btn-danger-hover);
+}
+
+/* ===== LIST ===== */
+ul {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+li {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: var(--list-bg);
+  border-radius: 6px;
+  display: flex;
+  gap: 0.75rem;
+  font-weight: 500;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: block;
+  text-align: center;
+  padding: 0.7rem;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  background: var(--btn-primary);
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--btn-primary-hover);
+}
+
+.btn.secondary {
+  background: var(--btn-secondary);
+}
+
+.btn.secondary:hover {
+  background: var(--btn-secondary-hover);
+}
