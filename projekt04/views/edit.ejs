@@ -17,7 +17,7 @@
 <body>
   <main>
     <h1><%= title %></h1>
-
+    <a href="/">← Back</a>
     <% people.forEach(function(person){ %>
       <form action="/edit/values" method="POST">
         <div class="field">
@@ -43,11 +43,15 @@
         </div>
 
         <input type="hidden" name="id" value="<%= person.id %>" />
-
+        <% if(person.author === user){ %>
         <div class="actions">
           <input type="submit" value="Update" name="update" />
           <input type="submit" value="Delete" name="delete" />
         </div>
+        <%}
+          else{%>
+          <p>no permission to edit this</p>
+          <%}%>
       </form>
     <% }) %>
   </main>

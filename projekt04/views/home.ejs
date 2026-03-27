@@ -11,7 +11,7 @@
 <body>
   <main>
     <h1><%= title %></h1>
-    <% if (user != false){ %>
+    <% if (user){ %>
       <p>hi <%= user %>!</p>
     <% } %>
     <a href="/about" class="top-link">About us</a>
@@ -22,14 +22,20 @@
           <span><%= person.id %></span>
           <span><%= person.fname %></span>
           <span><%= person.lname %></span>
+          <span><%= person.author %></span>
         </li>
       <% }) %>
     </ul>
 
     <div class="actions">
-      <a href="/edit" class="btn secondary">Edit</a>
-      <a href="/form" class="btn">Sign in NOW</a>
-      <a href="/user_signup" class="btn">Zarejestruj się!</a>
+      <a href="/edit" class="btn">Edit</a>
+      <% if(user){%>
+        <a href="/form" class="btn">Add a person to the hall of fame!</a>
+      <%}%>
+      <a href="/user_signup" class="btn">Sign in!</a>
+      <p>or</p>
+      <a href="/user_login" class="btn">Log in!</a>
+
       <a href="/settings/toggle-theme?next=<%- encodeURIComponent(page) %>">
         <% if (app.theme === "dark") { %>
         <strong>Ciemny</strong> | Jasny
@@ -37,6 +43,9 @@
         Ciemny | <strong>Jasny</strong>
         <% } %>
       </a>
+      <% if(user){%>
+        <a href="/user_logout" class="btn">logout</a>
+      <%}%>
     </div>
     
   </main>
