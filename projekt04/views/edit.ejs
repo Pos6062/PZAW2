@@ -1,19 +1,4 @@
-
-<!DOCTYPE html>
-<html data-theme="<%- app.theme %>" lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= title %></title>
-  <script src="/onclick.js"></script>
-  <link rel="stylesheet" href="/style/style.css">
-  <style>
-
-
-    
-  </style>
-</head>
-
+<%- include('./partial/head.ejs') %>
 <body>
   <main>
     <h1><%= title %></h1>
@@ -27,7 +12,7 @@
             id="fname-<%= person.id %>"
             name="fname"
             value="<%= person.fname %>"
-            required
+            required minlength="2" maxlength="30"
           />
         </div>
 
@@ -38,15 +23,15 @@
             id="lname-<%= person.id %>"
             name="lname"
             value="<%= person.lname %>"
-            required
+            required minlength="2" maxlength="30"
           />
         </div>
 
         <input type="hidden" name="id" value="<%= person.id %>" />
-        <% if(person.author === user){ %>
+        <% if(person.author === user || attr.is_admin === true){ %>
         <div class="actions">
-          <input type="submit" value="Update" name="update" />
-          <input type="submit" value="Delete" name="delete" />
+          <input type="submit" value="Update" name="update" class="btn success" style="background: var(--btn-success)" />
+          <input type="submit" value="Delete" name="delete" class="btn danger" style="background: var(--btn-danger)"/>
         </div>
         <%}
           else{%>

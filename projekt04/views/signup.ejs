@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="<%- app.theme %>">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/style/style.css">
-</head>
+<%- include('./partial/head.ejs',) %>
 <body>
 
     <main>
@@ -15,18 +8,17 @@
 
         </div>
         <div>
-            <a class="btn" href="/">back</a>
             <form action="/auth/signup" method="POST">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required minlength="2" maxlength="25">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required minlength="8" maxlength="40">
-                <input type="submit" value="submit">
+                <input type="submit" value="submit"class="btn">
             </form>
-            <!-- <p><%= err%></p> -->
+            <p><%= err%></p>
             <a href="/">← Back</a>
         </div>
-        <span>Masz już konto? <a href="/user_login">Zaloguj się!</a></span>
+        <span>Already have an account? <a href="/user_login">Log in!</a></span>
     </main> 
 
 </body>

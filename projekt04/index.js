@@ -53,20 +53,14 @@ db.exec(
     id             INTEGER PRIMARY KEY,
     fname          TEXT NOT NULL,
     lname          TEXT NOT NULL,
-    author         TEXT 
-  ) STRICT;`
-);
-
-/////////////////////////
-
-const usersDB = new DatabaseSync(db_path);
-console.log("Creating users db");
-usersDB.exec(
-  `CREATE TABLE IF NOT EXISTS users (
+    author         TEXT REFERENCES users(username) ON DELETE NO ACTION
+  ) STRICT;
+   CREATE TABLE IF NOT EXISTS users (
     id             INTEGER PRIMARY KEY,
     username        TEXT UNIQUE,
     passhash        TEXT,
-    created_at      INTEGER
+    created_at      INTEGER,
+    attributes      TEXT DEFAULT NULL
   ) STRICT;`
 )
 
@@ -76,11 +70,14 @@ usersDB.exec(
 const insert = db.prepare('INSERT INTO hall (fname, lname, author) VALUES (?, ?, ?)');
 const update_query = db.prepare('UPDATE hall SET fname = ?, lname = ? WHERE id = ?');
 const remove_query = db.prepare('DELETE FROM hall WHERE id = ?;');
-const empty = db.prepare('DELETE FROM hall WHERE 1;')
+const empty = db.prepare('DELETE FROM hall WHERE 1;');
 const populate = db.prepare("INSERT INTO hall (fname, lname) VALUES ('Oliwier', 'Bokemon'), ('Antoni', 'Chruściel'), ('Antoni', 'Jacko');");
 
-const addUser = usersDB.prepare('INSERT INTO users (username, passhash, created_at) VALUES (?, ?, ?)')
-const checkUser = usersDB.prepare('SELECT * FROM users WHERE username = ?')
+const addUser = db.prepare('INSERT INTO users (username, passhash, created_at) VALUES (?, ?, ?)');
+const checkUser = db.prepare('SELECT id, username, created_at, attributes FROM users WHERE LOWER(username) = ?');
+const getHash = db.prepare('SELECT passhash FROM users WHERE username = ?');
+const update_attributes = db.prepare('UPDATE users SET attributes = ? WHERE username = ?;');
+const get_attributes = db.prepare('SELECT attributes FROM users WHERE username = ?;');
 //;kvjksdfghjs
 
 
@@ -137,13 +134,16 @@ app.get("/form", (req, res) => {
 });
 
 app.get("/edit", (req, res) => {
+  
   const query = db.prepare('SELECT * FROM hall ORDER BY id');
   const people = query.all();
   const user = req.signedCookies["user"];
+  let attr = getAttributes(user);
   res.render("edit", {
     title: "Edytuj użytkowników",
     people: people,
-    user
+    user,
+    attr
   });
 });
 
@@ -172,7 +172,9 @@ app.post("/edit/values", (req, res) => {
 });
 
 app.get("/about", (req, res) =>{
-  res.render("about");
+  res.render("about", {
+    title: "About us"
+  });
 });
 
 app.get("/populate",  (req, res) =>{
@@ -188,14 +190,14 @@ app.get("/populate",  (req, res) =>{
 app.get("/user_signup", (req, res) =>{
   res.render("signup", {
     title: "Sign in",
-        err: "test",
+     err: req.query.err
   });
 })
 
 app.get("/user_login", (req, res) =>{
   res.render("login", {
     title: "Log in",
-
+    err: req.query.err
   });
 })
 
@@ -203,21 +205,60 @@ app.post("/auth/signup", async (req, res) =>{
   const username = req.body.username;
   const password = req.body.password;
 
-  let existing_user = checkUser.get(username);
-  console.log(existing_user);
-
-  if (existing_user === null || existing_user === undefined) {
-    const passhash = await argon2.hash(password, HASH_PARAMS);
-    addUser.run(username, passhash, Date.now());
-    res.redirect(`/`);
-  }
+    const err = await createUser(username, password, false);
+    console.log("error:");
+    console.log(err);
+    if(err === ""){
+    login(username, password, req, res);
+    console.log("account created!")
+    }
+    else{
+    res.redirect(`/user_signup?err=${encodeURIComponent(err)}`);
+    }
+  
 })
 
 app.post("/auth/login", async (req, res) =>{
   const username = req.body.username;
   const password = req.body.password;
+  login(username, password, req, res);
+  
+  
+})
 
-  const auth_data = checkUser.get(username);
+app.get("/user_logout", (req, res) =>{
+  res.clearCookie("user", { signed: true, httpOnly: false, path: "/" });
+  res.redirect("/");
+})
+
+
+
+async function createUser(username, password, isAdmin){
+  let usernameLower = username.toLowerCase()
+  let existing_user = checkUser.get(usernameLower);
+  console.log(existing_user);
+
+  if (existing_user === null || existing_user === undefined) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+    if(regex.test(password)){
+      const passhash = await argon2.hash(password, HASH_PARAMS);
+      addUser.run(username, passhash, Date.now());
+      let is_admin = { is_admin: isAdmin};
+      update_attributes.run(JSON.stringify(is_admin), username);
+      return "";
+    }
+    else{
+      return "The password must consist of numbers, lowercase and uppercase letters";
+    }
+  }
+  else{
+    return "This username is already taken!";
+  }
+}
+
+async function login(username, password, req, res){
+  const auth_data = getHash.get(username);
+  let err = ""
   if(auth_data !== undefined){
     const valid = await argon2.verify(auth_data.passhash, password, HASH_PARAMS)
     if(valid){
@@ -227,36 +268,49 @@ app.post("/auth/login", async (req, res) =>{
           httpOnly: true, 
           signed: true,
         });
+        
       console.log("logged in");
       res.redirect(`/`);
     
     }
     else{
-      console.log("bledne hasło lub nazwa")
+      err = "Wrong password"
+      console.log(err)
+      res.redirect(`/user_login?err=${encodeURIComponent(err)}`);
     }
   }
   else{
-      res.redirect(`/user_login`);
+    err = "User not found"
+    console.log(err)
+    res.redirect(`/user_login?err=${encodeURIComponent(err)}`);
   }
-  
-})
+}
 
-app.get("/user_login", (req, res) =>{
-  res.render("login", {
-    title: "login"
-  });
-})
+function getAttributes(username) {
+  let row = get_attributes.get(username);
+  console.log(row);
+  console.log(row.attributes);
+  return {...JSON.parse(row.attributes)};
+}
 
-app.get("/user_logout", (req, res) =>{
-  res.clearCookie("user", { signed: true, httpOnly: false, path: "/" });
-  res.redirect("/");
-})
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_NAME = process.env.ADMIN_NAME;
+
+if(ADMIN_PASSWORD && ADMIN_NAME){
+const check = checkUser.get(ADMIN_NAME);
+// console.log(check);
+  if(check === undefined || check === null){
+    createUser(ADMIN_NAME, ADMIN_PASSWORD, true);
+    console.log("Admin account created");
+  }
+}
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
 
 if (process.env.POPULATE_DB) {
+
   console.log("Populating db...");
   empty.run();
   populate.run();

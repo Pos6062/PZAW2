@@ -1,51 +1,69 @@
-<!DOCTYPE html>
-<html data-theme="<%- app.theme %>" lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= title %></title>
-  <script src="/populate.js"></script>
-  <link rel="stylesheet" href="/style/style.css"> 
-</head>
+
+<%- include('./partial/head.ejs') %>
 
 <body>
   <main>
     <h1><%= title %></h1>
-    <% if (user){ %>
-      <p>hi <%= user %>!</p>
-    <% } %>
+    <hr>
+    <%_ if (user){ _%>
+      <p>Hi <%= user %>!</p>
+    <%_ } _%>
     <a href="/about" class="top-link">About us</a>
 
     <ul id="people">
       <% people.forEach(function(person){ %>
         <li>
-          <span><%= person.id %></span>
-          <span><%= person.fname %></span>
-          <span><%= person.lname %></span>
-          <span><%= person.author %></span>
+          <span class="name">
+            <span><%= person.fname %></span>
+            <span><%= person.lname %></span>
+          </span>
+          <span class="author"><%= person.author %></span>
         </li>
       <% }) %>
     </ul>
 
-    <div class="actions">
-      <a href="/edit" class="btn">Edit</a>
-      <% if(user){%>
+    <!-- <div class="actions">
+      <%_ if(user){ _%>
         <a href="/form" class="btn">Add a person to the hall of fame!</a>
-      <%}%>
-      <a href="/user_signup" class="btn">Sign in!</a>
-      <p>or</p>
-      <a href="/user_login" class="btn">Log in!</a>
-
+        <a href="/edit" class="btn">Edit the hall of fame!</a>
+      <%_ }else{ _%>
+        <a href="/user_signup" class="btn">Sign in!</a>
+        <p>or</p>
+        <a href="/user_login" class="btn">Log in!</a>
+      <%_ } _%>
       <a href="/settings/toggle-theme?next=<%- encodeURIComponent(page) %>">
-        <% if (app.theme === "dark") { %>
-        <strong>Ciemny</strong> | Jasny
-        <% } else { %>
-        Ciemny | <strong>Jasny</strong>
-        <% } %>
+        <%_ if (app.theme === "dark") { _%>
+          <strong>Ciemny</strong> | Jasny
+        <%_ } else { _%>
+          Ciemny | <strong>Jasny</strong>
+        <%_ } _%>
       </a>
-      <% if(user){%>
-        <a href="/user_logout" class="btn">logout</a>
-      <%}%>
+      <%_ if(user){ _%>
+        <a href="/user_logout" class="btn">Log out</a>
+      <%_ } _%>
+    </div> -->
+    <div class="actions">
+      <%_ if(user){ _%>
+        <a href="/form" class="btn">Add a person!</a>
+        <a href="/edit" class="btn secondary">Edit hall of fame!</a>
+      <%_ }else{ _%>
+        <div class="auth-group">
+          <a href="/user_signup" class="btn">Sign in!</a>
+          <br>
+          <a href="/user_login" class="btn">Log in!</a>
+        </div>
+      <%_ } _%>
+      <a href="/settings/toggle-theme?next=<%- encodeURIComponent(page) %>">
+        <%_ if (app.theme === "dark") { _%>
+          <strong>Ciemny</strong> | Jasny
+        <%_ } else { _%>
+          Ciemny | <strong>Jasny</strong>
+        <%_ } _%>
+      </a>
+
+      <%_ if(user){ _%>
+        <a href="/user_logout" class="btn danger" style="background: var(--btn-danger)">Log out</a>
+      <%_ } _%>
     </div>
     
   </main>
