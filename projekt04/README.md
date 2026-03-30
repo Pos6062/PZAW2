@@ -1,4 +1,4 @@
-# Projekt Pzaw 3
+# Projekt Pzaw 4
 *Jak uruchomić stronę:*
 1. Sklonuj repozytorium: 
     git clone https://github.com/Pos6062/PZAW2
