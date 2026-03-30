@@ -25,12 +25,13 @@ app.get("/", (req, res) => {
   const query = db.prepare('SELECT * FROM hall ORDER BY id');
   const people = query.all();
   let user = req.signedCookies["user"];
-
+  let cookie_consent = req.cookies["cookie_consent"];
   res.render("home", {
     title: "The hall of fame",
     people,
     db,
-    user
+    user,
+    cookie_consent
   });
 });
 
@@ -99,6 +100,16 @@ app.post("/auth/signup", async (req, res) =>{
 
 app.post("/auth/login", async (req, res) =>{
   login(req.body.username, req.body.password, req, res);
+});
+
+app.post("/cookie_consent", (req, res) =>{
+  const consent = req.body.consent;
+  console.log(consent);
+  res.cookie("cookie_consent", consent, {
+        maxAge: 604800000,
+        httpOnly: true
+  });
+  res.redirect("/");
 });
 
 app.get("/user_logout", (req, res) =>{

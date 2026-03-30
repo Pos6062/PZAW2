@@ -21,27 +21,6 @@
         </li>
       <% }) %>
     </ul>
-
-    <!-- <div class="actions">
-      <%_ if(user){ _%>
-        <a href="/form" class="btn">Add a person to the hall of fame!</a>
-        <a href="/edit" class="btn">Edit the hall of fame!</a>
-      <%_ }else{ _%>
-        <a href="/user_signup" class="btn">Sign in!</a>
-        <p>or</p>
-        <a href="/user_login" class="btn">Log in!</a>
-      <%_ } _%>
-      <a href="/settings/toggle-theme?next=<%- encodeURIComponent(page) %>">
-        <%_ if (app.theme === "dark") { _%>
-          <strong>Ciemny</strong> | Jasny
-        <%_ } else { _%>
-          Ciemny | <strong>Jasny</strong>
-        <%_ } _%>
-      </a>
-      <%_ if(user){ _%>
-        <a href="/user_logout" class="btn">Log out</a>
-      <%_ } _%>
-    </div> -->
     <div class="actions">
       <%_ if(user){ _%>
         <a href="/form" class="btn">Add a person!</a>
@@ -52,20 +31,42 @@
           <br>
           <a href="/user_login" class="btn">Log in!</a>
         </div>
-      <%_ } _%>
-      <a href="/settings/toggle-theme?next=<%- encodeURIComponent(page) %>">
+      <%_ } 
+      if(cookie_consent === "yes"){_%>
+      <a href="/settings/toggle-theme%>">
         <%_ if (app.theme === "dark") { _%>
           <strong>Ciemny</strong> | Jasny
         <%_ } else { _%>
           Ciemny | <strong>Jasny</strong>
         <%_ } _%>
       </a>
+      <%_ }_%>
 
       <%_ if(user){ _%>
         <a href="/user_logout" class="btn danger" style="background: var(--btn-danger)">Log out</a>
       <%_ } _%>
     </div>
-    
+    <%_if(!cookie_consent){_%>
+    <div class="cookie_consent" id="consent">
+      <form action="/cookie_consent" method="POST">
+        <p>Our site uses cookies. Agree to optional cookies?</p>
+
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="consent" value="yes">
+            yes
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="consent" value="no">
+            no
+          </label>
+        </div>
+
+        <input type="submit" value="submit" class="btn success" style="background: var(--btn-success)">
+      </form>
+    </div>
+    <%_}_%>
   </main>
 </body>
 </html>

@@ -2,8 +2,8 @@
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 const ONE_MONTH = 30 * ONE_DAY;
-const THEME_COOKIE = "fisz-theme";
-const CONSENT_COOKIE = "fisz-consent";
+const THEME_COOKIE = "theme";
+const CONSENT_COOKIE = "cookie_consent";
 
 export function themeToggle(req, res) {
   var theme = req.cookies[THEME_COOKIE];
@@ -18,26 +18,26 @@ export function themeToggle(req, res) {
   res.redirect(next);
 }
 
-export function acceptCookies(req, res) {
-  res.cookie(CONSENT_COOKIE, true, { maxAge: ONE_MONTH });
+// export function acceptCookies(req, res) {
+//   res.cookie(CONSENT_COOKIE, true, { maxAge: ONE_MONTH });
 
-  var next = req.query.next || "/";
-  res.redirect(next);
-}
+//   var next = req.query.next || "/";
+//   res.redirect(next);
+// }
 
-export function declineCookies(req, res) {
-  res.cookie(CONSENT_COOKIE, false, { maxAge: ONE_MONTH });
+// export function declineCookies(req, res) {
+//   res.cookie(CONSENT_COOKIE, false, { maxAge: ONE_MONTH });
 
-  var next = req.query.next || "/";
-  res.redirect(next);
-}
+//   var next = req.query.next || "/";
+//   res.redirect(next);
+// }
 
-export function manageCookies(req, res) {
-  // TODO Handle cookie management
-  res.render("cookies_manage", {
-    title: "Zarządzanie cookies",
-  });
-}
+// export function manageCookies(req, res) {
+//   // TODO Handle cookie management
+//   res.render("cookies_manage", {
+//     title: "Zarządzanie cookies",
+//   });
+// }
 
 export function getSettings(req) {
   const settings = {

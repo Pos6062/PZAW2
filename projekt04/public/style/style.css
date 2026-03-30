@@ -279,7 +279,6 @@ main > p {
   opacity: 0.8;
 }
 
-/* Naprawa grupy przycisków Sign in / Log in (usunięcie <br> na rzecz gap) */
 .auth-group {
   display: flex;
   flex-direction: column;
@@ -287,10 +286,28 @@ main > p {
   width: 100%;
 }
 
-/* Jeśli chcesz, żeby hi i About us były w jednej linii */
 .user-nav {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 1rem;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  align-items: center; /* wszystko na środku */
+  text-align: center;
+  flex-direction: column;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+input[type="radio"]{
+  cursor: pointer;
 }
