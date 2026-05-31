@@ -39,6 +39,8 @@ app.get("/form", (req, res) => {
   res.render("form", { title: "Add a person" });
 });
 
+
+
 app.get("/edit", (req, res) => {
   const people = db.prepare('SELECT * FROM hall ORDER BY id').all();
   const user = req.signedCookies["user"];
