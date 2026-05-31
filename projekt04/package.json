@@ -10,8 +10,7 @@
     "dev": "node --watch --env-file .env ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate-env": "node utils/generate_env.js",
-    "populate-db": "node utils/populate.js",
-    "setup": "npm install && npm run generate-env && npm run populate-db"
+    "setup": "npm install && npm run generate-env"
   },
   "dependencies": {
     "argon2": "^0.44.0",
