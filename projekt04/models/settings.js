@@ -18,26 +18,6 @@ export function themeToggle(req, res) {
   res.redirect(next);
 }
 
-// export function acceptCookies(req, res) {
-//   res.cookie(CONSENT_COOKIE, true, { maxAge: ONE_MONTH });
-
-//   var next = req.query.next || "/";
-//   res.redirect(next);
-// }
-
-// export function declineCookies(req, res) {
-//   res.cookie(CONSENT_COOKIE, false, { maxAge: ONE_MONTH });
-
-//   var next = req.query.next || "/";
-//   res.redirect(next);
-// }
-
-// export function manageCookies(req, res) {
-//   // TODO Handle cookie management
-//   res.render("cookies_manage", {
-//     title: "Zarządzanie cookies",
-//   });
-// }
 
 export function getSettings(req) {
   const settings = {

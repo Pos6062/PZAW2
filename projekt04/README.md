@@ -31,13 +31,19 @@
 - GET `/user_login` - formularz logowania
 - GET `/user_signup` - strona startowa aplikacji
 - GET `/edit` - edytowanie wpisów
-- GET `/form` - formularz dodawania osoby do ściany chwały
-*dodatkowao występują ścieżki POST, których tu nie wypisałem*
-#### strona przekierowuje użytkowników na stronę główną, po znalezieniu się przez użytkownika na niezapowiedzianej ścieżce
+- GET `/form` - formularz dodawania osoby do ściany chwały<br>
+**dodatkowao występują ścieżki POST, których tu nie wypisałem**
+#### Strona przekierowuje użytkowników na stronę główną, po znalezieniu się przez użytkownika na niezapowiedzianej ścieżce
 ## Personalizacja
 - aplikacja posiada ciemny motyw
 
-# Code reviews:
+## Technologie
+- Node.js
+- Express
+- Argon2
+- Sqlite
+
+# Code reviews
 ### 1. M. R.
 #### Instalacja
 - działa sprawnie, pojawia się 5 vulnerablilities ale to git
