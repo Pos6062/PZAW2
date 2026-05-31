@@ -24,22 +24,26 @@ async function createUser(username, password, isAdmin){
   let usernameLower = username.toLowerCase()
   let existing_user = checkUser.get(usernameLower);
 
-  if (existing_user === null || existing_user === undefined) {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-    if(regex.test(password)){
-      const passhash = await argon2.hash(password, HASH_PARAMS);
-      addUser.run(username, passhash, Date.now());
-
-      let is_admin = { is_admin: isAdmin};
-      update_attributes.run(JSON.stringify(is_admin), username);
-
-      return "";
+  if(username.includes(" ")){
+    return "Username cannot include a space!";
+  }else{
+    if (existing_user === null || existing_user === undefined) {
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+      if(regex.test(password)){
+        const passhash = await argon2.hash(password, HASH_PARAMS);
+        addUser.run(username, passhash, Date.now());
+      
+        let is_admin = { is_admin: isAdmin};
+        update_attributes.run(JSON.stringify(is_admin), username);
+      
+        return "";
+      } else {
+        console.log(existing_user);
+        return "The password must consist of numbers, lowercase and uppercase letters";
+      }
     } else {
-      console.log(existing_user);
-      return "The password must consist of numbers, lowercase and uppercase letters";
+      return "This username is already taken!";
     }
-  } else {
-    return "This username is already taken!";
   }
 }
 

@@ -118,5 +118,11 @@ app.get("/user_logout", (req, res) =>{
   res.clearCookie("user", { signed: true, httpOnly: false, path: "/" });
   res.redirect("/");
 });
+app.get('/style', (req, res) => {
+  res.redirect('/');
+});
+app.get('/{*splat}', (req, res) => {
+  res.redirect('/');
+});
 
 export default app;

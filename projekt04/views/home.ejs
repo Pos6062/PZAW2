@@ -15,7 +15,9 @@
         <li>
           <span class="name">
             <span><%= person.fname %></span>
+            <%_ if (person.lname){ _%>
             <span><%= person.lname %></span>
+            <%_ } _%>
           </span>
           <span class="author"><%= person.author %></span>
         </li>
