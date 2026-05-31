@@ -33,7 +33,7 @@
 - GET `/edit` - edytowanie wpisów
 - GET `/form` - formularz dodawania osoby do ściany chwały
 *dodatkowao występują ścieżki POST, których tu nie wypisałem*
-
+#### strona przekierowuje użytkowników na stronę główną, po znalezieniu się przez użytkownika na niezapowiedzianej ścieżce
 ## Personalizacja
 - aplikacja posiada ciemny motyw
 
